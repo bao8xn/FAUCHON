@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>FAUCHON Paris | Haute Gastronomie, Épicerie Fine & Coffrets d'Exception</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23e2007a'/><text y='70' x='15' font-size='65' font-family='serif' fill='white' font-weight='bold'>F</text></svg>">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Playfair Display"', 'serif'],
+            cinzel: ['"Cinzel"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            fauchon: {
+              magenta: '#e2007a',
+              pink: '#ff1493',
+              darkpink: '#b80063',
+              glow: 'rgba(226, 0, 122, 0.25)',
+            },
+            gold: {
+              light: '#f5e6be',
+              base: '#d4af37',
+              dark: '#9a7b20',
+            },
+            noir: {
+              950: '#070709',
+              900: '#0e0e12',
+              850: '#14141a',
+              800: '#1c1c24',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    *, *::before, *::after {
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #070709; }
+    ::-webkit-scrollbar-thumb { background: #22222e; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #e2007a; }
+
+    .ultra-glass-nav {
+      background: rgba(10, 10, 14, 0.6) !important;
+      backdrop-filter: blur(28px) saturate(190%) !important;
+      -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
+      border-bottom: 1px solid rgba(226, 0, 122, 0.2) !important;
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+    }
+
+    .glass-box {
+      background: rgba(16, 16, 22, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-box:hover {
+      border-color: rgba(226, 0, 122, 0.5);
+      box-shadow: 0 16px 35px -10px rgba(226, 0, 122, 0.25);
+    }
+
+    #glass-drawer {
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      background: rgba(12, 12, 17, 0.94);
+      backdrop-filter: blur(36px) saturate(200%);
+      -webkit-backdrop-filter: blur(36px) saturate(200%);
+    }
+
+    /* پس‌زمینهٔ کاملاً شیشه‌ای و شفاف مودال */
+    #product-modal {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      background: rgba(8, 8, 12, 0.45) !important;
+      backdrop-filter: blur(32px) saturate(190%) !important;
+      -webkit-backdrop-filter: blur(32px) saturate(190%) !important;
+      transition: opacity 0.22s ease-out, visibility 0.22s ease-out;
+      will-change: opacity;
+    }
+    #product-modal.active {
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
+    }
+    #modal-card {
+      background-color: #0d0d12 !important;
+      transform: scale(0.96) translateY(12px);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
+    }
+    #product-modal.active #modal-card {
+      transform: scale(1) translateY(0) !important;
+    }
+
+    .slider-track {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      will-change: transform;
+    }
+    .slide-item {
+      width: 100%;
+      height: 100%;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body class="bg-noir-950 text-stone-200 font-sans antialiased selection:bg-fauchon-magenta selection:text-white">
+
+  <!-- Top Announcement Bar -->
+  <aside aria-label="Annonce boutique" class="bg-gradient-to-r from-noir-950 via-fauchon-darkpink/80 to-noir-950 border-b border-fauchon-magenta/30 text-[11px] font-medium tracking-widest text-center py-2 px-4 uppercase text-stone-200">
+    <span>Livraison Offerte Dès 85€</span>
+    <span class="mx-3 text-fauchon-magenta">•</span>
+    <span>Écrin & Ruban Signature Offerts</span>
+    <span class="mx-3 text-fauchon-magenta hidden sm:inline">•</span>
+    <span class="hidden sm:inline">Expédition Fraîcheur 24/48h</span>
+  </aside>
+
+  <!-- Ultra Frosted Glass Navigation Header -->
+  <header class="sticky top-0 z-40 ultra-glass-nav transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" onclick="navigateDepartment('all', 'Tous les Produits Fauchon')" class="flex flex-col items-center group">
+        <span class="font-cinzel text-2xl sm:text-3xl font-extrabold tracking-[0.28em] text-white group-hover:text-fauchon-magenta transition-colors">FAUCHON</span>
+        <span class="text-[9px] font-sans uppercase tracking-[0.45em] text-fauchon-magenta -mt-1 font-semibold">PARIS 1886</span>
+      </a>
+
+      <!-- Desktop Quick Department Navigation -->
+      <nav class="hidden lg:flex items-center gap-6 text-xs font-semibold uppercase tracking-widest text-stone-300">
+        <button onclick="navigateDepartment('140ans', 'Collection 140 Ans (1886 - 2026)')" class="hover:text-fauchon-magenta transition-colors text-gold-base font-bold">140 Ans</button>
+        <button onclick="navigateDepartment('offrir', 'Coffrets & Paniers à Offrir')" class="hover:text-fauchon-magenta transition-colors">À offrir</button>
+        <button onclick="navigateDepartment('chocolat', 'Chocolats & Confiseries')" class="hover:text-fauchon-magenta transition-colors">Chocolats</button>
+        <button onclick="navigateDepartment('macarons', 'Macarons Parisiens')" class="hover:text-fauchon-magenta transition-colors">Macarons</button>
+        <button onclick="navigateDepartment('epicerie', 'Épicerie Fine de France')" class="hover:text-fauchon-magenta transition-colors">Épicerie fine</button>
+        <button onclick="navigateDepartment('the', 'Thés & Infusions Rares')" class="hover:text-fauchon-magenta transition-colors">Thés</button>
+        <button onclick="navigateDepartment('cave', 'La Cave & Champagnes Fauchon')" class="hover:text-fauchon-magenta transition-colors">La Cave</button>
+      </nav>
+
+      <!-- Cart Button & 3-Line Menu Trigger -->
+      <div class="flex items-center gap-3">
+        <button onclick="toggleCartModal()" class="relative p-2.5 rounded-full bg-noir-900/80 border border-stone-800 text-stone-300 hover:text-white hover:border-fauchon-magenta transition-all">
+          <i class="fa-solid fa-bag-shopping text-sm"></i>
+          <span id="cart-badge" class="absolute -top-1 -right-1 bg-fauchon-magenta text-white font-bold text-[10px] w-5 h-5 rounded-full flex items-center justify-center">0</span>
+        </button>
+
+        <button onclick="openDrawerMenu()" aria-label="Ouvrir le menu" class="p-2.5 rounded-full bg-noir-900/80 border border-stone-800 text-stone-200 hover:text-white hover:border-fauchon-magenta flex items-center justify-center transition-all">
+          <i class="fa-solid fa-bars text-base"></i>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- LUXURY GLASS DRAWER MENU -->
+  <div id="drawer-backdrop" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-md hidden opacity-0 transition-opacity duration-300" onclick="closeDrawerMenu()">
+    <div id="glass-drawer" class="absolute top-0 right-0 w-full max-w-md h-full flex flex-col justify-between border-l border-white/10 shadow-2xl overflow-y-auto translate-x-full p-6 sm:p-8" onclick="event.stopPropagation()">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-white/10 pb-5 mb-6">
+          <div class="flex items-center gap-2">
+            <span class="font-serif italic text-2xl font-bold text-fauchon-magenta">Menu</span>
+            <span class="text-[10px] uppercase tracking-widest text-stone-500 font-cinzel">FAUCHON</span>
+          </div>
+          <button onclick="closeDrawerMenu()" aria-label="Fermer" class="w-9 h-9 rounded-full bg-noir-950/80 border border-white/15 text-stone-300 hover:text-white hover:bg-fauchon-magenta flex items-center justify-center transition-all">
+            <i class="fa-solid fa-xmark text-sm"></i>
+          </button>
+        </div>
+
+        <div class="space-y-4 text-sm font-serif">
+          
+          <div class="border-b border-white/5 pb-3">
+            <button onclick="closeDrawerMenu(); navigateDepartment('140ans', 'Collection Anniversaire 140 Ans (1886 - 2026)');" class="w-full text-left text-white hover:text-fauchon-magenta transition-colors text-base font-medium flex items-center justify-between">
+              <span>140 ans <span class="text-[9px] uppercase font-sans text-gold-base ml-2 font-bold px-2 py-0.5 rounded-full border border-gold-base/30">1886 - 2026</span></span>
+              <i class="fa-solid fa-arrow-right text-xs text-stone-600"></i>
+            </button>
+          </div>
+
+          <div class="border-b border-white/5 pb-3">
+            <button onclick="toggleAccordion('acc-offrir', this)" class="w-full text-left text-white hover:text-fauchon-magenta transition-colors text-base font-medium flex items-center justify-between">
+              <span>À offrir</span>
+              <span class="acc-icon text-lg text-stone-400 font-light">+</span>
+            </button>
+            <div id="acc-offrir" class="hidden pl-4 pt-2.5 space-y-2 text-xs font-sans text-stone-400">
+              <a href="#catalogue" onclick="closeDrawerMenu(); navigateDepartment('offrir', 'Tous les Coffrets & Paniers');" class="block hover:text-fauchon-magenta transition">Tous les Coffrets Cadeaux</a>
+              <a href="#catalogue" onclick="closeDrawerMenu(); navigateDepartment('offrir', 'Malles Prestige & Boîtes Chapeaux');" class="block hover:text-fauchon-magenta transition">Malles Prestige & Boîtes Chapeaux</a>
+              <a href="#catalogue" onclick="closeDrawerMenu(); navigateDepartment('offrir', 'Compositions Terroir & Épices');" class="block hover:text-fauchon-magenta transition">Compositions Apéritives & Épices</a>
+            </div>
+          </div>
+
+          <div class="border-b border-white/5 pb-3">
+            <button onclick="toggleAccordion('acc-chocolat', this)" class="w-full text-left text-white hover:text-fauchon-magenta transition-colors text-base font-medium flex items-center justify-between">
+              <span>Chocolats & confiseries</span>
+              <span class="acc-icon text-lg text-stone-400 font-light">+</span>
+            </button>
+            <div id="acc-chocolat" class="hidden pl-4 pt-2.5 space-y-2 text-xs font-sans text-stone-400">
+              <a href="#catalogue" onclick="closeDrawerMenu(); navigateDepartment('chocolat', 'Boîtes de Chocolats Fins & Pralinés');" class="block hover:text-fauchon-magenta transition">Boîtes de Chocolats Fins</a>
+              <a href="#catalogue" onclick="closeDrawerMenu(); navigateDepartment('chocolat', 'Truffes & Cœurs de Chocolat');" class="block hover:text-fauchon-magenta transition">Truffes & Cœurs Fondants</a>
+              <a href="#catalogue" onclick="closeDrawerMenu(); navigateDepartment('chocolat', 'Pâtes de Fruits & Confiseries Nobles');" class="block hover:text-fauchon-magenta transition">Pâtes de Fruits & Marrons Glacés</a>
+            </div>
+          </div>
+
+          <div class="border-b border-white/5 pb-3">
+            <button onclick="closeDrawerMenu(); navigateDepartment('macarons', 'Les Macarons Frais de Paris');" class="w-full text-left text-white hover:text-fauchon-magenta transition-colors text-base font-medium flex items-center justify-between">
+              <span>Macarons</span>
+              <i class="fa-solid fa-arrow-right text-xs text-stone-600"></i>
+            </button>
+          </div>
+
+          <div class="border-b border-white/5 pb-3">
+            <button onclick="toggleAccordion('acc-epicerie', this)" class="w-full text-left text-white hover:text-fauchon-magenta transition-colors text-base font-medium flex items-center justify-between">
+              <span>Epicerie fine</span>
+              <span class="acc-icon text-lg text-stone-400 font-light">+</span>
+            </button>
+            <div id="acc-epicerie" class="hidden pl-4 pt-2.5 space-y-2 text-xs font-sans text-stone-400">
+              <a href="#catalogue" onclick="closeDrawerMenu(); navigateDepartment('epicerie', 'Foie Gras Entier d\'Oie et de Canard');" class="block hover:text-fauchon-magenta transition">Foie Gras du Sud-Ouest & d'Alsace</a>
+              <a href="#catalogue" onclick="closeDrawerMenu(); navigateDepartment('epicerie', 'Caviar Baeri & Rillettes Côtières');" class="block hover:text-fauchon-magenta transition">Caviar Baeri & Produits de la Mer</a>
+              <a href="#catalogue" onclick="closeDrawerMenu(); navigateDepartment('epicerie', 'Condiments, Sels & Confitures');" class="block hover:text-fauchon-magenta transition">Tapenades, Sels Truffés & Confitures</a>
+            </div>
+          </div>
+
+          <div class="border-b border-white/5 pb-3">
+            <button onclick="toggleAccordion('acc-the', this)" class="w-full text-left text-white hover:text-fauchon-magenta transition-colors text-base font-medium flex items-center justify-between">
+              <span>Thés & Infusions</span>
+              <span class="acc-icon text-lg text-stone-400 font-light">+</span>
+            </button>
+            <div id="acc-the" class="hidden pl-4 pt-2.5 space-y-2 text-xs font-sans text-stone-400">
+              <a href="#catalogue" onclick="closeDrawerMenu(); navigateDepartment('the', 'Thés Parfumés & Thés Noirs');" class="block hover:text-fauchon-magenta transition">Thé "Un Soir de France" & Mélange Fauchon</a>
+              <a href="#catalogue" onclick="closeDrawerMenu(); navigateDepartment('the', 'Thés Verts & Infusions Bien-Être');" class="block hover:text-fauchon-magenta transition">Thé BISOU BISOU & Infusions Florales</a>
+            </div>
+          </div>
+
+          <div class="border-b border-white/5 pb-3">
+            <button onclick="toggleAccordion('acc-cave', this)" class="w-full text-left text-white hover:text-fauchon-magenta transition-colors text-base font-medium flex items-center justify-between">
+              <span>La Cave</span>
+              <span class="acc-icon text-lg text-stone-400 font-light">+</span>
+            </button>
+            <div id="acc-cave" class="hidden pl-4 pt-2.5 space-y-2 text-xs font-sans text-stone-400">
+              <a href="#catalogue" onclick="closeDrawerMenu(); navigateDepartment('cave', 'Champagnes Fauchon Brut & Rosé');" class="block hover:text-fauchon-magenta transition">Champagnes Brut, Rosé & Blanc de Blancs</a>
+              <a href="#catalogue" onclick="closeDrawerMenu(); navigateDepartment('cave', 'Grands Crus & Vins de Terroir');" class="block hover:text-fauchon-magenta transition">Champagne Ruinart & Pouilly-Fumé</a>
+            </div>
+          </div>
+
+          <div class="pt-2">
+            <button onclick="closeDrawerMenu(); navigateDepartment('140ans', 'L\'Héritage Fauchon depuis 1886');" class="text-stone-300 italic font-serif text-lg hover:text-fauchon-magenta transition-colors flex items-center gap-2">
+              <span>La Maison</span>
+              <span class="text-[10px] font-sans not-italic text-stone-500 uppercase tracking-widest">Paris 1886</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="pt-6 border-t border-white/10 space-y-4">
+        <div class="p-3.5 rounded-2xl bg-noir-950 border border-fauchon-magenta/30 flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-fauchon-magenta text-white flex items-center justify-center flex-shrink-0 text-xs">
+            <i class="fa-solid fa-gift"></i>
+          </div>
+          <p class="text-[11px] text-stone-300 font-sans">
+            <strong class="text-white block font-semibold">Livraison offerte</strong> dès 85€ avec l'écrin et le ruban gros-grain signature.
+          </p>
+        </div>
+
+        <div class="flex items-center justify-between text-xs text-stone-400 font-sans">
+          <div class="flex items-center gap-2 hover:text-white cursor-pointer" onclick="alert('Espace client officiel FAUCHON.')">
+            <i class="fa-regular fa-user text-sm"></i>
+            <span>Connexion Client</span>
+          </div>
+          <div class="text-[11px] font-bold">
+            <span class="text-fauchon-magenta">FR</span> | <span class="text-stone-600 hover:text-stone-400 cursor-pointer">EN</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="relative min-h-[60vh] flex items-center justify-center pt-14 pb-14 overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(226,0,122,0.22)_0%,transparent_70%)] pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-5xl mx-auto px-4 text-center">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-fauchon-magenta/40 bg-fauchon-magenta/10 text-fauchon-pink text-[11px] font-bold uppercase tracking-[0.25em] mb-6">
+        <i class="fa-solid fa-crown text-[10px]"></i> Catalogue Général Officiel
+      </div>
+
+      <h1 class="font-serif text-4xl sm:text-6xl font-bold text-white tracking-tight leading-tight mb-6">
+        Le Goût de l'Excellence <br>
+        <span class="italic font-normal font-serif text-transparent bg-clip-text bg-gradient-to-r from-fauchon-pink via-white to-gold-light">
+          Maison FAUCHON Paris
+        </span>
+      </h1>
+
+      <p class="max-w-2xl mx-auto text-stone-300 text-sm sm:text-base leading-relaxed font-light mb-8">
+        Explorez l'ensemble des créations gastronomiques : chocolats d'orfèvre, macarons de saison, épicerie salée, thés rares et cuvées de Champagne.
+      </p>
+
+      <div class="flex flex-wrap justify-center gap-3">
+        <button onclick="navigateDepartment('all', 'Tous les Produits Fauchon')" class="px-7 py-3 rounded-full bg-fauchon-magenta hover:bg-fauchon-darkpink text-white font-bold text-xs uppercase tracking-widest shadow-xl shadow-fauchon-glow transition-all">
+          Voir Tous les Produits
+        </button>
+        <button onclick="navigateDepartment('140ans', 'Collection 140 Ans (1886 - 2026)')" class="px-7 py-3 rounded-full bg-noir-900 border border-gold-base/50 text-gold-light font-bold text-xs uppercase tracking-widest hover:border-fauchon-magenta transition-all">
+          Édition 140 Ans
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Catalogue Section -->
+  <section id="catalogue" class="py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
+    
+    <div class="text-center mb-8">
+      <span class="text-fauchon-magenta text-xs font-bold uppercase tracking-[0.25em]">Boutique en Ligne</span>
+      <h2 id="department-title" class="font-serif text-3xl sm:text-4xl font-bold text-white mt-1">Tous les Produits Fauchon</h2>
+      <p id="department-count" class="text-xs text-stone-400 mt-1 font-sans">Chargement des créations...</p>
+    </div>
+
+    <!-- Filter & Search Toolbar -->
+    <div class="glass-box rounded-2xl p-4 sm:p-5 mb-10 flex flex-col lg:flex-row items-center justify-between gap-4">
+      
+      <div class="flex flex-wrap items-center gap-2 w-full lg:w-auto">
+        <button onclick="navigateDepartment('all', 'Tous les Produits')" class="cat-pill px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all bg-fauchon-magenta text-white" data-cat="all">
+          Tous
+        </button>
+        <button onclick="navigateDepartment('140ans', 'Collection 140 Ans')" class="cat-pill px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all bg-noir-900 text-stone-400 hover:text-white" data-cat="140ans">
+          140 Ans
+        </button>
+        <button onclick="navigateDepartment('offrir', 'Coffrets à Offrir')" class="cat-pill px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all bg-noir-900 text-stone-400 hover:text-white" data-cat="offrir">
+          À Offrir
+        </button>
+        <button onclick="navigateDepartment('chocolat', 'Chocolats & Confiseries')" class="cat-pill px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all bg-noir-900 text-stone-400 hover:text-white" data-cat="chocolat">
+          Chocolats
+        </button>
+        <button onclick="navigateDepartment('macarons', 'Macarons')" class="cat-pill px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all bg-noir-900 text-stone-400 hover:text-white" data-cat="macarons">
+          Macarons
+        </button>
+        <button onclick="navigateDepartment('epicerie', 'Épicerie Fine')" class="cat-pill px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all bg-noir-900 text-stone-400 hover:text-white" data-cat="epicerie">
+          Épicerie Fine
+        </button>
+        <button onclick="navigateDepartment('the', 'Thés & Infusions')" class="cat-pill px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all bg-noir-900 text-stone-400 hover:text-white" data-cat="the">
+          Thés
+        </button>
+        <button onclick="navigateDepartment('cave', 'La Cave')" class="cat-pill px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all bg-noir-900 text-stone-400 hover:text-white" data-cat="cave">
+          La Cave
+        </button>
+      </div>
+
+      <div class="flex items-center gap-3 w-full lg:w-auto">
+        <div class="relative flex-1 sm:w-64">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-500 text-xs"></i>
+          <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="Rechercher un article..." class="w-full pl-9 pr-4 py-2 rounded-full bg-noir-950 border border-stone-800 text-xs text-white placeholder-stone-500 focus:outline-none focus:border-fauchon-magenta transition-colors">
+        </div>
+
+        <select id="sort-select" onchange="handleSort()" class="py-2 px-3 rounded-full bg-noir-950 border border-stone-800 text-xs text-stone-300 focus:outline-none focus:border-fauchon-magenta">
+          <option value="featured">Mise en avant</option>
+          <option value="price-asc">Prix : Croissant</option>
+          <option value="price-desc">Prix : Décroissant</option>
+        </select>
+      </div>
+
+    </div>
+
+    <!-- Product Grid -->
+    <div id="product-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+
+  </section>
+
+  <!-- POPUP MODAL (Backdrop Frosted Glass) -->
+  <div id="product-modal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
+    <div id="modal-card" class="border border-stone-800 rounded-3xl max-w-lg w-full max-h-[92vh] overflow-hidden shadow-2xl relative flex flex-col">
+      
+      <div id="modal-slider-viewport" class="relative h-60 sm:h-64 w-full flex-shrink-0 overflow-hidden select-none bg-black">
+        <div id="modal-slider-track" class="slider-track"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0d0d12] via-transparent to-black/35 pointer-events-none"></div>
+
+        <button onclick="closeModal()" aria-label="Fermer" class="absolute top-3.5 right-3.5 z-20 w-8 h-8 rounded-full bg-black/75 border border-white/20 text-stone-300 hover:text-white hover:bg-fauchon-magenta flex items-center justify-center transition-all">
+          <i class="fa-solid fa-xmark text-xs"></i>
+        </button>
+
+        <div class="absolute bottom-2.5 left-5 right-5 flex items-end justify-between pointer-events-none">
+          <div>
+            <span id="m-badge" class="px-2 py-0.5 rounded-full bg-fauchon-magenta text-white text-[9px] font-bold uppercase tracking-wider"></span>
+            <h3 id="m-title" class="font-serif text-lg sm:text-xl font-bold text-white mt-1 drop-shadow-md"></h3>
+          </div>
+          <span id="m-price" class="text-gold-light font-serif text-lg sm:text-xl font-bold drop-shadow-md"></span>
+        </div>
+      </div>
+
+      <div class="p-5 overflow-y-auto space-y-4 text-xs text-stone-300 flex-1">
+        <div>
+          <h4 class="text-[10px] font-bold uppercase tracking-wider text-fauchon-pink mb-1">
+            <i class="fa-solid fa-sparkles mr-1"></i> Description Gastronomique
+          </h4>
+          <p id="m-desc" class="text-stone-300 leading-relaxed font-light text-xs"></p>
+        </div>
+
+        <div class="bg-noir-950 p-3.5 rounded-xl border border-white/5 space-y-2">
+          <h4 class="text-[10px] font-bold uppercase tracking-wider text-white flex items-center gap-1.5">
+            <i class="fa-solid fa-list-check text-fauchon-magenta"></i> Détails & Ingrédients
+          </h4>
+          <ul id="m-contents" class="text-xs text-stone-400 space-y-1.5 list-disc list-inside"></ul>
+        </div>
+      </div>
+
+      <div class="p-4 bg-noir-950 border-t border-white/5 flex items-center justify-between gap-3 shrink-0">
+        <button onclick="closeModal()" class="px-4 py-2.5 rounded-full border border-stone-800 text-stone-400 text-xs font-semibold hover:text-white uppercase tracking-wider">
+          Fermer
+        </button>
+        <button id="modal-add-btn" class="px-5 py-2.5 rounded-full bg-fauchon-magenta hover:bg-fauchon-darkpink text-white font-bold text-xs uppercase tracking-widest shadow-lg shadow-fauchon-glow transition-all">
+          Ajouter au Panier
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Cart Drawer -->
+  <div id="cart-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex justify-end">
+    <div class="w-full max-w-md bg-noir-900 h-full p-6 flex flex-col justify-between border-l border-white/10 shadow-2xl">
+      <div>
+        <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
+          <h3 class="font-serif text-lg font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-bag-shopping text-fauchon-magenta"></i> Votre Panier Délicat
+          </h3>
+          <button onclick="toggleCartModal()" class="text-stone-400 hover:text-white text-lg">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div id="cart-items-list" class="space-y-3 overflow-y-auto max-h-[60vh]"></div>
+      </div>
+
+      <div class="pt-4 border-t border-white/10 space-y-3">
+        <div class="flex justify-between text-sm font-semibold text-white">
+          <span>Total :</span>
+          <span id="cart-total-price" class="text-gold-light font-serif text-base">0,00 €</span>
+        </div>
+        <button onclick="alert('Commande enregistrée avec succès !')" class="w-full py-3.5 rounded-full bg-fauchon-magenta hover:bg-fauchon-darkpink text-white font-bold text-xs uppercase tracking-widest shadow-lg shadow-fauchon-glow">
+          Valider la Commande
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-noir-950 border-t border-white/10 py-10 text-stone-500 text-xs text-center">
+    <div class="max-w-7xl mx-auto px-4 space-y-3">
+      <div class="font-cinzel text-xl font-black text-white tracking-[0.25em]">FAUCHON PARIS</div>
+      <p class="text-[11px]">Boutique officielle des 7 Dépôts Gastronomiques • Place de la Madeleine, Paris</p>
+      <p class="text-[10px]">© 2026 FAUCHON Paris. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+  <script>
+    const productsDB = [
+      // 1. 140 ANS
+      {
+        id: '140-biscuits',
+        name: 'Boîte Collector Biscuits "F" 140 Ans',
+        badge: 'Édition 140 Ans',
+        price: 21.90,
+        departments: ['140ans', 'chocolat'],
+        images: [
+          'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1590736969955-71cc94801759?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Pour célébrer les 140 ans de la Maison, découvrez les emblématiques biscuits sablés "F" présentés dans leur boîte métallique collector sérigraphiée.',
+        contents: ['Biscuits pur beurre de baratte français', 'Finition fleur de sel de Guérande', 'Boîte métallique collector 140 Ans']
+      },
+      {
+        id: '140-chocolats',
+        name: 'Écrin de 6 Chocolats Noirs 140 Ans',
+        badge: 'Édition 140 Ans',
+        price: 13.00,
+        departments: ['140ans', 'chocolat'],
+        images: [
+          'https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1481391319762-47dff72954d9?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Assortiment collector de 6 chocolats noirs intenses fèves Criollo et Forastero, célébrant l\'héritage chocolatier de la Madeleine.',
+        contents: ['6 chocolats noirs grands crus 72%', 'Ganache cacao intense et praliné amande']
+      },
+      {
+        id: '140-macarons',
+        name: 'Coffret Collector 8 Macarons 140 Ans',
+        badge: 'Édition 140 Ans',
+        price: 27.00,
+        departments: ['140ans', 'macarons'],
+        images: [
+          'https://images.unsplash.com/photo-1569864358642-9d1684040f43?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1558326567-98ae2405596b?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'À l\'occasion des 140 ans de la Maison FAUCHON, un coffret collector en édition limitée avec ganache anniversaire vanille bourbon et fleur d\'oranger.',
+        contents: ['8 macarons d\'exception décorés d\'or 24 carats', 'Étui collector noir et or 140 ans']
+      },
+      {
+        id: '140-duo',
+        name: 'Duo 140 Ans – Champagne Millésime 2019 & Macarons',
+        badge: 'Prestige 140 Ans',
+        price: 110.00,
+        departments: ['140ans', 'cave', 'macarons'],
+        images: [
+          'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1569864358642-9d1684040f43?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Pour célébrer les 140 ans de la Maison, ce duo réunit le Champagne FAUCHON Édition Collector Millésime 2019 et un coffret de 8 macarons collector.',
+        contents: ['Champagne Fauchon Millésime 2019 (75cl)', 'Coffret 8 macarons collector 140 Ans']
+      },
+      {
+        id: '140-matcha',
+        name: 'Matcha Cérémoniel FAUCHON 140 Ans',
+        badge: 'Édition 140 Ans',
+        price: 32.90,
+        departments: ['140ans', 'the'],
+        images: [
+          'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Matcha cérémoniel d\'exception récolté au Japon, créé spécialement pour le 140ème anniversaire avec des notes florales délicates.',
+        contents: ['Poudre de thé vert matcha pur biologique (30g)', 'Boîte hermétique laquée or et fuchsia']
+      },
+      {
+        id: '140-champagne',
+        name: 'Champagne Fauchon Millésime 2019 Collector 140 Ans',
+        badge: 'Collector Millésime',
+        price: 90.00,
+        departments: ['140ans', 'cave'],
+        images: [
+          'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Cuvée d\'exception célébrant 140 ans de passion. Millésime 2019 issu des meilleurs terroirs de la Côte des Blancs.',
+        contents: ['Bouteille 75cl Champagne Millésimé 2019', 'Étui prestige or et noir avec sceau 1886-2026']
+      },
+
+      // 2. À OFFRIR
+      {
+        id: 'incontournable',
+        name: 'Coffret "Incontournable"',
+        badge: 'Best-Seller Fauchon',
+        price: 85.00,
+        departments: ['offrir', 'epicerie', 'chocolat'],
+        images: [
+          'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Les essentiels de la Maison réunis dans un coffret emblématique. Un festival de saveurs sucrées et salées raffinées.',
+        contents: ['Terrine de canard à l\'ail rose (140g)', 'Rillettes de saumon au piment d\'Espelette (100g)', 'Étui de chocolats fins', 'Confiture de fraises d\'Île-de-France', 'Sablés pur beurre']
+      },
+      {
+        id: 'aperichic',
+        name: 'Coffret "Aperichic"',
+        badge: 'Apéritif Terroir',
+        price: 50.00,
+        departments: ['offrir', 'epicerie'],
+        images: [
+          'https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1541256942802-7b2996a84f97?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Le raffinement de l\'apéritif à la française dans un écrin élégant prêt à déguster.',
+        contents: ['Tapenade d\'olives noires de Nyons AOP', 'Rillettes de canard confit', 'Craquants au romarin de Provence', 'Noix de cajou grillées au poivre']
+      },
+      {
+        id: 'afterwork',
+        name: 'Coffret "Afterwork"',
+        badge: 'Célébration Chic',
+        price: 87.00,
+        departments: ['offrir', 'cave', 'epicerie'],
+        images: [
+          'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Un festival de saveurs fines et délicates pour célébrer les fins de journée réussies dans une ambiance feutrée.',
+        contents: ['Demi-bouteille de Champagne Brut (37.5cl)', 'Terrine aux morilles', 'Tartinable poivrons doux', 'Amandes salées à la truffe']
+      },
+      {
+        id: 'malle-prestige',
+        name: 'Malle Prestige 1886',
+        badge: 'Grand Luxe Joaillerie',
+        price: 285.00,
+        departments: ['offrir', 'cave', 'epicerie'],
+        images: [
+          'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Présentée dans une malle laquée noire mat ornée de finitions dorées. Le nec plus ultra de la gastronomie parisienne.',
+        contents: ['Caviar Baeri d\'Aquitaine (50g)', 'Champagne Blanc de Blancs Millésimé', 'Foie Gras truffé 5%', 'Coffret de 36 chocolats grands crus']
+      },
+      {
+        id: 'boite-chapeau',
+        name: 'Boîte Chapeau "L\'Audacieuse"',
+        badge: 'Champagne Rosé',
+        price: 115.00,
+        departments: ['offrir', 'cave', 'chocolat'],
+        images: [
+          'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1569864358642-9d1684040f43?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'La légendaire boîte chapeau ronde Fauchon rose vif renfermant une cuvée de Champagne Rosé et des douceurs aériennes.',
+        contents: ['Champagne Fauchon Brut Rosé (75cl)', 'Tablette de chocolat Ruby fèves roses', 'Guimauves vanille Bourbon', 'Biscuits cœurs sablés']
+      },
+      {
+        id: 'coffret-3-epices',
+        name: 'Coffret 3 Épices Rares',
+        badge: 'Condiments Nobles',
+        price: 44.00,
+        departments: ['offrir', 'epicerie'],
+        images: [
+          'https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1541256942802-7b2996a84f97?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Un coffret composé de trois épices : un poivre noir de Sarawak, un mélange 5 baies et un sel rose de l\'Himalaya.',
+        contents: ['Poivre noir de Sarawak en moulin', 'Mélange 5 baies aromatiques', 'Sel rose de l\'Himalaya']
+      },
+      {
+        id: 'pause-sucree',
+        name: 'Coffret "Pause Sucrée"',
+        badge: 'Douce Attention',
+        price: 32.00,
+        departments: ['offrir', 'chocolat'],
+        images: [
+          'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Un cadeau délicat et accessible pour un moment de pause réconfortant avec confiture d\'oranges et sablés.',
+        contents: ['Boîte de mini-biscuits sablés vanille', 'Confiture artisanale d\'oranges douces au Grand Marnier', 'Assortiment de 6 napolitains chocolat noir']
+      },
+      {
+        id: 'pause-salee',
+        name: 'Coffret "Pause Salée"',
+        badge: 'Apéro Nomade',
+        price: 33.00,
+        departments: ['offrir', 'epicerie'],
+        images: [
+          'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Pour un apéritif nomade ou un pique-nique chic aux saveurs authentiques du Sud de la France.',
+        contents: ['Terrine de campagne au piment doux', 'Crackers fins au sésame doré', 'Olives vertes picholines marinées']
+      },
+      {
+        id: 'irresistible',
+        name: 'Coffret "Irrésistible"',
+        badge: 'Grand Luxe Fauchon',
+        price: 125.00,
+        departments: ['offrir', 'cave', 'chocolat'],
+        images: [
+          'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Une harmonie somptueuse entre Champagne millésimé, foie gras et chocolats de maître.',
+        contents: ['Bouteille Champagne Fauchon Brut (75cl)', 'Bloc de foie gras de canard aux truffes', 'Écrin de 16 chocolats assortis', 'Biscuits salés au comté AOP']
+      },
+
+      // 3. CHOCOLATS & CONFISERIES
+      {
+        id: 'boite-coeur-magenta',
+        name: 'Boîte Cœur Magenta Chocolat au Lait',
+        badge: 'Cœur Fauchon',
+        price: 17.50,
+        departments: ['chocolat'],
+        images: [
+          'https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1481391319762-47dff72954d9?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Douceur passionnément chocolat. Boîte emblématique en forme de cœur garnie de bonbons de chocolat au lait onctueux.',
+        contents: ['8 cœurs chocolat au lait praliné croustillant', 'Boîte collector métallique rose magenta']
+      },
+      {
+        id: 'boite-coeur-noir',
+        name: 'Boîte Cœur Noire Chocolat Noir Intense',
+        badge: 'Cacao Intense',
+        price: 17.50,
+        departments: ['chocolat'],
+        images: [
+          'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Plaisir chocolaté, moment exquis. Boîte cœur noire garnie de cœurs de ganache noire intense pure origine.',
+        contents: ['8 cœurs chocolat noir ganache 70%', 'Boîte collector métallique noire satinée']
+      },
+      {
+        id: 'boite-24-chocolats',
+        name: 'Boîte de 24 Chocolats Fins d\'Exception',
+        badge: 'Chocolaterie Pure',
+        price: 34.00,
+        departments: ['chocolat', 'offrir'],
+        images: [
+          'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1481391319762-47dff72954d9?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Assortiment de 24 chocolats noirs et au lait aux ganaches fondantes, pralinés croquants aux noisettes du Piémont.',
+        contents: ['24 chocolats assortis fins', 'Ganaches pures origine Équateur et Madagascar']
+      },
+      {
+        id: 'ecrin-54-chocolats',
+        name: 'Écrin Somptueux 54 Chocolats Pralinés & Ganaches',
+        badge: 'Prestige Boîte',
+        price: 80.00,
+        departments: ['chocolat', 'offrir'],
+        images: [
+          'https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1511381939415-e44015466834?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Élégance, finesse, gourmandise. Un coffret XXL de 54 chocolats de maître pour les grandes tables de dégustation.',
+        contents: ['54 bonbons de chocolats noir, lait et blanc', 'Pralinés d\'amande et ganaches caramel beurre salé']
+      },
+      {
+        id: 'ecrin-truffes',
+        name: 'Écrin de Truffes Pures au Chocolat Noir',
+        badge: 'Fondant Intense',
+        price: 24.00,
+        departments: ['chocolat'],
+        images: [
+          'https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Truffes artisanales roulées à la main dans une poudre de cacao pur amère, cœur ganache onctueuse.',
+        contents: ['16 truffes pur beurre de cacao (200g)', 'Poudre de cacao hollandais grand cru']
+      },
+      {
+        id: 'pates-de-fruits',
+        name: 'Collection de 16 Pâtes de Fruits Artisanales',
+        badge: 'Douceur Fruitée',
+        price: 26.50,
+        departments: ['chocolat'],
+        images: [
+          'https://images.unsplash.com/photo-1582293041079-7814c2f12063?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1569864358642-9d1684040f43?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Carrés de pâtes de fruits traditionnelles cuites au chaudron de cuivre : abricot, cassis, framboise et poire Williams.',
+        contents: ['16 carrés pur fruit de nos régions (180g)', 'Sucre cristal fin']
+      },
+      {
+        id: 'caramels-beurre-sale',
+        name: 'Caramels Tendres au Beurre Salé de Guérande',
+        badge: 'Tradition Bretonne',
+        price: 11.50,
+        departments: ['chocolat'],
+        images: [
+          'https://images.unsplash.com/photo-1582293041079-7814c2f12063?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Caramels salés à la crème fraîche et au sel de Guérande, fondants et parfumés à la vanille bourbon.',
+        contents: ['Boîte métal 150g caramels emballés individuellement']
+      },
+      {
+        id: 'marrons-glaces',
+        name: 'Coffret 8 Marrons Glacés sous vide',
+        badge: 'Orfèvrerie Sucrée',
+        price: 43.00,
+        departments: ['chocolat', 'offrir'],
+        images: [
+          'https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1582293041079-7814c2f12063?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Si l\'élégance rencontrait l\'excellence. Châtaignes entières glacées au sucre fin et à la vanille de Madagascar.',
+        contents: ['8 marrons glacés entiers sous vide pour une fraîcheur absolue']
+      },
+      {
+        id: 'nougat-montelimar',
+        name: 'Nougat de Montélimar IGP & Noisettes',
+        badge: 'IGP Provence',
+        price: 15.00,
+        departments: ['chocolat'],
+        images: [
+          'https://images.unsplash.com/photo-1582293041079-7814c2f12063?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Barre de nougat tendre blanc cuit au miel de lavande avec amandes grillées et éclats de noisettes torréfiées.',
+        contents: ['Barre 200g nougat blanc traditionnel de Montélimar']
+      },
+      {
+        id: 'calissons-aix',
+        name: 'Calissons d\'Aix-en-Provence Tradition',
+        badge: 'Spécialité Reine',
+        price: 30.00,
+        departments: ['chocolat'],
+        images: [
+          'https://images.unsplash.com/photo-1582293041079-7814c2f12063?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1569864358642-9d1684040f43?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Délicatesse et tradition provençale. Pâte d\'amande douce broyée avec du melon confit et glaçage royal blanc.',
+        contents: ['Boîte losange 225g calissons d\'Aix certifiés']
+      },
+      {
+        id: 'fauchon-hot-chocolate',
+        name: 'Chocolat Chaud Onctueux Fauchon Paris',
+        badge: 'Recette Madeleine',
+        price: 9.50,
+        departments: ['chocolat'],
+        images: [
+          'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Retrouvez l\'onctuosité incomparable du chocolat chaud servi dans les salons de thé Fauchon place de la Madeleine.',
+        contents: ['Poudre de chocolat pur beurre de cacao 250g']
+      },
+
+      // 4. MACARONS
+      {
+        id: 'macarons-reglette-6',
+        name: 'Réglette 6 Macarons Assortis',
+        badge: 'Pause Gourmande',
+        price: 18.00,
+        departments: ['macarons'],
+        images: [
+          'https://images.unsplash.com/photo-1569864358642-9d1684040f43?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1558326567-98ae2405596b?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Assortiment de 6 macarons parisiens : pistache de Sicile, framboise intense, vanille Bourbon, caramel beurre salé, chocolat noir et citron.',
+        contents: ['6 macarons frais artisanaux']
+      },
+      {
+        id: 'macarons-boite-8',
+        name: 'Coffret 8 Macarons Boîte Mac',
+        badge: 'Cadeau Idéal',
+        price: 27.00,
+        departments: ['macarons'],
+        images: [
+          'https://images.unsplash.com/photo-1558326567-98ae2405596b?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1569864358642-9d1684040f43?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Craquant et savoureux. Coques meringuées fines et ganaches généreuses fondues au cœur.',
+        contents: ['8 macarons parisiens aux parfums de saison']
+      },
+      {
+        id: 'macarons-decor-paris-12',
+        name: 'Coffret 12 Macarons Décor Parisien',
+        badge: 'Écrin Illustré',
+        price: 38.00,
+        departments: ['macarons', 'offrir'],
+        images: [
+          'https://images.unsplash.com/photo-1569864358642-9d1684040f43?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1558326567-98ae2405596b?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Boîte illustrée des monuments emblématiques de Paris garnie de 12 macarons gourmands.',
+        contents: ['12 macarons frais aux ganaches variées']
+      },
+      {
+        id: 'macarons-boite-16',
+        name: 'Coffret 16 Macarons Boîte Fauchon',
+        badge: 'Signature Fauchon',
+        price: 48.00,
+        departments: ['macarons', 'offrir'],
+        images: [
+          'https://images.unsplash.com/photo-1558326567-98ae2405596b?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1569864358642-9d1684040f43?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'L\'iconique écrin fuchsia contenant 16 macarons frais confectionnés chaque matin par nos chefs.',
+        contents: ['16 macarons parisiens assortis']
+      },
+      {
+        id: 'macarons-boite-32',
+        name: 'Coffret 32 Macarons Prestige Fauchon',
+        badge: 'Format Réception',
+        price: 86.00,
+        departments: ['macarons', 'offrir'],
+        images: [
+          'https://images.unsplash.com/photo-1569864358642-9d1684040f43?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1558326567-98ae2405596b?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Irrésistible festival de 32 macarons aux couleurs chatoyantes pour les grandes tablées.',
+        contents: ['32 macarons artisanaux aux 8 parfums signatures']
+      },
+      {
+        id: 'macarons-12-champagne',
+        name: 'Coffret 12 Macarons & Champagne FAUCHON Brut',
+        badge: 'Accord Parfait',
+        price: 75.00,
+        departments: ['macarons', 'cave', 'offrir'],
+        images: [
+          'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1569864358642-9d1684040f43?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Alliance pétillante et douce : 12 macarons frais accompagnés d\'une bouteille de Champagne Fauchon Brut (75cl).',
+        contents: ['Champagne Fauchon Brut (75cl)', 'Boîte 12 macarons assortis']
+      },
+
+      // 5. ÉPICERIE FINE
+      {
+        id: 'foie-gras-oie-alsace',
+        name: 'Foie Gras d\'Oie Entier Recette d\'Alsace (200g)',
+        badge: 'L\'Excellence d\'Oie',
+        price: 81.00,
+        departments: ['epicerie', 'offrir'],
+        images: [
+          'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1607301406259-dfb186e15de8?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Recette secrète depuis les années 1900 avec cannelle, girofle et cardamome pour exalter la texture soyeuse de l\'oie.',
+        contents: ['Bocal verre 200g Foie Gras d\'oie entier d\'Alsace']
+      },
+      {
+        id: 'foie-gras-oie-truffe',
+        name: 'Foie Gras d\'Oie Entier Truffé à 5% (130g)',
+        badge: 'Truffé à 5%',
+        price: 73.00,
+        departments: ['epicerie', 'offrir'],
+        images: [
+          'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1607301406259-dfb186e15de8?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'La truffe noire rehausse noblement la texture fondante du foie gras d\'oie pour une persistance aromatique sublime.',
+        contents: ['Bocal 130g Foie Gras d\'oie truffé à 5% de Tuber Melanosporum']
+      },
+      {
+        id: 'foie-gras-canard-sud-ouest',
+        name: 'Foie Gras de Canard Entier du Sud-Ouest (180g)',
+        badge: 'IGP Sud-Ouest',
+        price: 39.00,
+        departments: ['epicerie', 'offrir'],
+        images: [
+          'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1607301406259-dfb186e15de8?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Lobes entiers rigoureusement sélectionnés et assaisonnés à la main au poivre et sel de mer.',
+        contents: ['Bocal 180g Foie Gras entier de canard']
+      },
+      {
+        id: 'caviar-baeri',
+        name: 'Caviar Français Baeri d\'Aquitaine (50g)',
+        badge: 'Or Noir Français',
+        price: 110.00,
+        departments: ['epicerie', 'cave', 'offrir'],
+        images: [
+          'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Grains fermes aux reflets sombres, révélant des notes beurrées et iodées d\'une persistance exceptionnelle.',
+        contents: ['Boîte sous vide 50g Caviar Baeri d\'Aquitaine', 'Cuillère de dégustation en nacre véritable']
+      },
+      {
+        id: 'rillettes-mer',
+        name: 'Coffret 4 Rillettes de la Mer Bretonnes',
+        badge: 'Pêche Artisanale',
+        price: 41.00,
+        departments: ['epicerie', 'offrir'],
+        images: [
+          'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Recettes côtières cuisinées en Bretagne : saumon au citron confit, thon germon, crabe et Saint-Jacques.',
+        contents: ['4 pots de 90g de rillettes marines fines']
+      },
+      {
+        id: 'tapenade-olives-noires',
+        name: 'Tapenade d\'Olives Noires de Nyons AOP',
+        badge: 'Provence AOP',
+        price: 7.50,
+        departments: ['epicerie'],
+        images: [
+          'https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1541256942802-7b2996a84f97?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Préparée avec des olives noires Tanche de Nyons AOP, câpres et huile d\'olive vierge extra.',
+        contents: ['Pot en verre 100g tapenade artisanale']
+      },
+      {
+        id: 'confiture-fraises',
+        name: 'Confiture Artisanale Fraise d\'Île-de-France',
+        badge: 'Chaudron Cuivre',
+        price: 8.50,
+        departments: ['epicerie'],
+        images: [
+          'https://images.unsplash.com/photo-1582293041079-7814c2f12063?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1569864358642-9d1684040f43?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Fraises fraîches cueillies à maturité et cuites au sucre de canne dans les ateliers Fauchon.',
+        contents: ['Pot 250g confiture extra de fraises']
+      },
+      {
+        id: 'sel-truffe-noirmoutier',
+        name: 'Sel Fin de Noirmoutier à la Truffe Noire',
+        badge: 'Condiment Précieux',
+        price: 14.50,
+        departments: ['epicerie'],
+        images: [
+          'https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1541256942802-7b2996a84f97?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Sel marin artisanal récolté dans les œillets de Noirmoutier mêlé à des brisures de truffe noire d\'hiver.',
+        contents: ['Bocal 100g sel fin aromatisé à la truffe']
+      },
+
+      // 6. THÉS & INFUSIONS
+      {
+        id: 'the-soir-de-france',
+        name: 'Thé Noir "Un Soir de France" Boîte Métal (100g)',
+        badge: 'Thé Signature',
+        price: 14.70,
+        departments: ['the', 'offrir'],
+        images: [
+          'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Le célèbre thé noir Fauchon parfumé aux pétales de rose délicates, fleurs de souci et arômes d\'abricot doux.',
+        contents: ['Boîte métal laquée fuchsia hermétique 100g', 'Feuilles entières de thé noir de Ceylan']
+      },
+      {
+        id: 'the-melange-fauchon',
+        name: 'Thé "Mélange FAUCHON" Noir & Agrumes (100g)',
+        badge: 'Classique 1898',
+        price: 14.70,
+        departments: ['the'],
+        images: [
+          'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Création historique parfumée aux huiles essentielles d\'agrumes de Méditerranée et vanille douce.',
+        contents: ['Boîte métal 100g thé noir parfumé']
+      },
+      {
+        id: 'the-earl-grey-bleuets',
+        name: 'Thé Earl Grey & Fleurs de Bleuets',
+        badge: 'Bergamote Pure',
+        price: 13.90,
+        departments: ['the'],
+        images: [
+          'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Thé noir noble parfumé à la bergamote de Calabre parsemé de pétales de bleuets champêtres.',
+        contents: ['Étui 100g thé noir en feuilles']
+      },
+      {
+        id: 'the-bisou-bisou',
+        name: 'Thé Vert BISOU BISOU Menthe, Fraise & Piment',
+        badge: 'Mélange Exclusif',
+        price: 18.90,
+        departments: ['the'],
+        images: [
+          'https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Thé vert Sencha aux notes fraîches de menthe poivrée, fraise gariguette et pointe de piment réchauffant.',
+        contents: ['Boîte métal 100g de thé vert en vrac']
+      },
+      {
+        id: 'the-darjeeling-imperial',
+        name: 'Thé Noir Darjeeling Impérial F.O.P.',
+        badge: 'Pure Origine Inde',
+        price: 19.30,
+        departments: ['the'],
+        images: [
+          'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Le champagne des thés noirs : récolte de printemps aux notes de muscat et d\'amande fraîche.',
+        contents: ['Boîte 100g Darjeeling First Flush certifié']
+      },
+      {
+        id: 'infusion-marchand-de-reve',
+        name: 'Infusion Rooibos "Marchand de Rêve"',
+        badge: 'Sans Théine',
+        price: 14.70,
+        departments: ['the'],
+        images: [
+          'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Rooibos d\'Afrique du Sud parfumé aux notes rondes et douces de miel doré et caramel au beurre.',
+        contents: ['Boîte métal hermétique 100g']
+      },
+      {
+        id: 'mug-fauchon-or',
+        name: 'Mug Porcelaine Fauchon Or & Blanc',
+        badge: 'Art de la Table',
+        price: 19.00,
+        departments: ['the'],
+        images: [
+          'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Mug en porcelaine fine orné des armoiries dorées de la Maison Fauchon pour vos dégustations quotidiennes.',
+        contents: ['Mug 350ml en porcelaine fine compatible lave-vaisselle']
+      },
+
+      // 7. LA CAVE
+      {
+        id: 'champagne-fauchon-brut',
+        name: 'Champagne FAUCHON Brut (75cl)',
+        badge: 'Cuvée Signature',
+        price: 36.00,
+        departments: ['cave', 'offrir'],
+        images: [
+          'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Élaboré avec précision : Pinot Noir et Chardonnay mariés pour une belle minéralité et une fraîcheur florale incomparable.',
+        contents: ['Bouteille 75cl Champagne Fauchon Brut Premier Cru']
+      },
+      {
+        id: 'demi-champagne-fauchon',
+        name: 'Demi-Champagne FAUCHON Brut (37,5cl)',
+        badge: 'Format Dégustation',
+        price: 20.50,
+        departments: ['cave'],
+        images: [
+          'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Le format idéal pour un apéritif intime en duo avec toutes les qualités de notre cuvée signature.',
+        contents: ['Demi-bouteille 37,5cl']
+      },
+      {
+        id: 'champagne-fauchon-rose',
+        name: 'Champagne FAUCHON Brut Rosé (75cl)',
+        badge: 'Fruits Rouges Frais',
+        price: 41.50,
+        departments: ['cave', 'offrir'],
+        images: [
+          'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Robe rose poudrée aux arômes gourmands de fraise des bois, groseille et notes briochées.',
+        contents: ['Bouteille 75cl Champagne Fauchon Brut Rosé']
+      },
+      {
+        id: 'champagne-blanc-de-blancs',
+        name: 'Champagne Blanc de Blancs Brut FAUCHON (75cl)',
+        badge: '100% Chardonnay',
+        price: 39.00,
+        departments: ['cave'],
+        images: [
+          'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Cuvée d\'une pureté cristalline élaborée exclusivement à partir de raisins blancs Chardonnay de la Côte des Blancs.',
+        contents: ['Bouteille 75cl Blanc de Blancs']
+      },
+      {
+        id: 'magnum-champagne-blanc-de-blancs',
+        name: 'Magnum Champagne Blanc de Blancs FAUCHON (1,5L)',
+        badge: 'Format Somptueux',
+        price: 99.00,
+        departments: ['cave', 'offrir'],
+        images: [
+          'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Magnum d\'apparat pour les grandes réceptions. Vieillissement prolongé sur lattes pour une bulle d\'une extrême finesse.',
+        contents: ['Bouteille Magnum 1,5 Litre en étui noir et or']
+      },
+      {
+        id: 'champagne-ruinart-brut',
+        name: 'Champagne Ruinart Brut (75cl)',
+        badge: 'Maison Historique 1729',
+        price: 61.00,
+        departments: ['cave'],
+        images: [
+          'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'La première maison de champagne au monde. Éclat, fraîcheur et rondeur incomparable des chardonnays.',
+        contents: ['Bouteille 75cl Champagne Ruinart Brut']
+      },
+      {
+        id: 'pouilly-fume',
+        name: 'Pouilly-Fumé AOC Domaine Fauchon (75cl)',
+        badge: 'Grand Vin Blanc',
+        price: 26.00,
+        departments: ['cave', 'epicerie'],
+        images: [
+          'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80'
+        ],
+        desc: 'Sauvignon blanc minéral aux arômes de pierre à fusil et agrumes frais, idéal sur fruits de mer et fromages de chèvre.',
+        contents: ['Bouteille 75cl Pouilly-Fumé millésimé']
+      }
+    ];
+
+    let currentDept = 'all';
+    let currentSearch = '';
+    let currentSort = 'featured';
+    let cart = [];
+
+    function navigateDepartment(dept, title) {
+      currentDept = dept;
+      document.getElementById('department-title').textContent = title || 'Catalogue Fauchon';
+      
+      document.querySelectorAll('.cat-pill').forEach(btn => {
+        if (btn.getAttribute('data-cat') === dept) {
+          btn.className = 'cat-pill px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all bg-fauchon-magenta text-white';
+        } else {
+          btn.className = 'cat-pill px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all bg-noir-900 text-stone-400 hover:text-white';
+        }
+      });
+
+      renderProducts();
+      const catSection = document.getElementById('catalogue');
+      if (catSection) catSection.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function toggleAccordion(id, btn) {
+      const el = document.getElementById(id);
+      const icon = btn.querySelector('.acc-icon');
+      if (el.classList.contains('hidden')) {
+        el.classList.remove('hidden');
+        icon.textContent = '−';
+      } else {
+        el.classList.add('hidden');
+        icon.textContent = '+';
+      }
+    }
+
+    function openDrawerMenu() {
+      const backdrop = document.getElementById('drawer-backdrop');
+      const drawer = document.getElementById('glass-drawer');
+      backdrop.classList.remove('hidden');
+      requestAnimationFrame(() => {
+        backdrop.classList.remove('opacity-0');
+        drawer.classList.remove('translate-x-full');
+      });
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDrawerMenu() {
+      const backdrop = document.getElementById('drawer-backdrop');
+      const drawer = document.getElementById('glass-drawer');
+      backdrop.classList.add('opacity-0');
+      drawer.classList.add('translate-x-full');
+      setTimeout(() => backdrop.classList.add('hidden'), 350);
+      document.body.style.overflow = '';
+    }
+
+    function renderProducts() {
+      const container = document.getElementById('product-container');
+      let filtered = productsDB.filter(p => {
+        const matchesDept = currentDept === 'all' || p.departments.includes(currentDept);
+        const matchesSearch = p.name.toLowerCase().includes(currentSearch.toLowerCase()) || 
+                              p.desc.toLowerCase().includes(currentSearch.toLowerCase());
+        return matchesDept && matchesSearch;
+      });
+
+      if (currentSort === 'price-asc') filtered.sort((a, b) => a.price - b.price);
+      else if (currentSort === 'price-desc') filtered.sort((a, b) => b.price - a.price);
+
+      document.getElementById('department-count').textContent = `${filtered.length} créations nobles disponibles`;
+
+      container.innerHTML = '';
+      filtered.forEach(p => {
+        const card = document.createElement('article');
+        card.className = 'glass-box rounded-2xl overflow-hidden cursor-pointer group flex flex-col justify-between';
+        card.innerHTML = `
+          <div>
+            <div class="h-48 overflow-hidden relative" onclick="openBoxDetails('${p.id}')">
+              <img src="${p.images[0]}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <span class="absolute top-2.5 left-2.5 bg-noir-950/85 backdrop-blur-md border border-fauchon-magenta/40 text-fauchon-pink text-[9px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full">
+                ${p.badge}
+              </span>
+            </div>
+            <div class="p-4" onclick="openBoxDetails('${p.id}')">
+              <div class="flex justify-between items-baseline mb-1">
+                <h3 class="font-serif text-base font-bold text-white group-hover:text-fauchon-magenta transition-colors">${p.name}</h3>
+                <span class="text-gold-light font-serif text-sm font-bold">${p.price.toFixed(2).replace('.', ',')} €</span>
+              </div>
+              <p class="text-[11px] text-stone-400 line-clamp-2 leading-relaxed font-light mb-3">${p.desc}</p>
+            </div>
+          </div>
+          <div class="p-4 pt-0 border-t border-white/5 flex items-center justify-between">
+            <span onclick="openBoxDetails('${p.id}')" class="text-[10px] text-stone-400 hover:text-white uppercase tracking-wider">
+              <i class="fa-solid fa-gift text-fauchon-magenta mr-1"></i> Détails
+            </span>
+            <button onclick="addToCart('${p.id}'); event.stopPropagation();" class="px-3 py-1.5 rounded-full bg-fauchon-magenta hover:bg-fauchon-darkpink text-white text-[10px] font-bold uppercase tracking-wider transition-all">
+              Ajouter
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    let currentSlideIndex = 0;
+    let activeImagesCount = 3;
+
+    function initModalSlider(images) {
+      currentSlideIndex = 0;
+      activeImagesCount = images.length;
+      const track = document.getElementById('modal-slider-track');
+      track.innerHTML = '';
+
+      images.forEach((imgUrl, i) => {
+        const slide = document.createElement('div');
+        slide.className = 'slide-item';
+        slide.innerHTML = `<img src="${imgUrl}" alt="Photo ${i+1}" class="w-full h-full object-cover select-none pointer-events-none transition-all duration-300 ${i === 0 ? '' : 'filter blur-[5px]'}">`;
+        track.appendChild(slide);
+      });
+
+      track.style.transition = 'none';
+      track.style.transform = 'translateX(0)';
+
+      setTimeout(() => {
+        triggerPeekTease();
+      }, 260);
+    }
+
+    function triggerPeekTease() {
+      const track = document.getElementById('modal-slider-track');
+      track.style.transition = 'transform 0.45s cubic-bezier(0.25, 1, 0.5, 1)';
+      track.style.transform = 'translateX(-5.5%)';
+
+      setTimeout(() => {
+        track.style.transition = 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)';
+        track.style.transform = 'translateX(0)';
+      }, 550);
+    }
+
+    function updateSliderPosition() {
+      const track = document.getElementById('modal-slider-track');
+      track.style.transition = 'transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1)';
+      track.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+
+      const imgs = track.querySelectorAll('.slide-item img');
+      imgs.forEach((img, idx) => {
+        if (idx === currentSlideIndex) {
+          img.classList.remove('blur-[5px]');
+        } else {
+          img.classList.add('blur-[5px]');
+        }
+      });
+    }
+
+    function nextSlide() {
+      currentSlideIndex = (currentSlideIndex + 1) % activeImagesCount;
+      updateSliderPosition();
+    }
+
+    function prevSlide() {
+      currentSlideIndex = (currentSlideIndex - 1 + activeImagesCount) % activeImagesCount;
+      updateSliderPosition();
+    }
+
+    (function initSwipe() {
+      const viewport = document.getElementById('modal-slider-viewport');
+      let startX = 0;
+      let isSwiping = false;
+
+      viewport.addEventListener('touchstart', e => {
+        if (e.target.closest('button')) return;
+        startX = e.touches[0].clientX;
+        isSwiping = true;
+      }, { passive: true });
+
+      viewport.addEventListener('touchend', e => {
+        if (!isSwiping) return;
+        isSwiping = false;
+        const diffX = e.changedTouches[0].clientX - startX;
+        if (diffX < -35) nextSlide();
+        else if (diffX > 35) prevSlide();
+      });
+    })();
+
+    const modal = document.getElementById('product-modal');
+    function openBoxDetails(id) {
+      const p = productsDB.find(item => item.id === id);
+      if (!p) return;
+
+      document.getElementById('m-title').textContent = p.name;
+      document.getElementById('m-badge').textContent = p.badge;
+      document.getElementById('m-price').textContent = `${p.price.toFixed(2).replace('.', ',')} €`;
+      document.getElementById('m-desc').textContent = p.desc;
+
+      initModalSlider(p.images);
+
+      const list = document.getElementById('m-contents');
+      list.innerHTML = '';
+      p.contents.forEach(c => {
+        const li = document.createElement('li');
+        li.textContent = c;
+        list.appendChild(li);
+      });
+
+      const addBtn = document.getElementById('modal-add-btn');
+      addBtn.onclick = () => {
+        addToCart(p.id);
+        closeModal();
+      };
+
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+
+    window.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        closeModal();
+        closeDrawerMenu();
+      }
+    });
+
+    function handleSearch() {
+      currentSearch = document.getElementById('search-input').value;
+      renderProducts();
+    }
+
+    function handleSort() {
+      currentSort = document.getElementById('sort-select').value;
+      renderProducts();
+    }
+
+    function addToCart(id) {
+      const p = productsDB.find(item => item.id === id);
+      if (!p) return;
+      cart.push(p);
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      document.getElementById('cart-badge').textContent = cart.length;
+      const list = document.getElementById('cart-items-list');
+      list.innerHTML = '';
+
+      let total = 0;
+      cart.forEach((item, index) => {
+        total += item.price;
+        const row = document.createElement('div');
+        row.className = 'flex items-center justify-between p-3 rounded-xl bg-noir-950 border border-stone-800 text-xs';
+        row.innerHTML = `
+          <div>
+            <p class="font-serif font-bold text-white">${item.name}</p>
+            <span class="text-gold-light">${item.price.toFixed(2).replace('.', ',')} €</span>
+          </div>
+          <button onclick="removeFromCart(${index})" class="text-stone-500 hover:text-red-400">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        `;
+        list.appendChild(row);
+      });
+
+      document.getElementById('cart-total-price').textContent = `${total.toFixed(2).replace('.', ',')} €`;
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCartUI();
+    }
+
+    function toggleCartModal() {
+      document.getElementById('cart-modal').classList.toggle('hidden');
+    }
+
+    renderProducts();
+  </script>
+</body>
+</html>
